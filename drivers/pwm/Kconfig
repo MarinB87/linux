@@ -332,7 +332,6 @@ config PWM_PCA9685
 	  will be called pwm-pca9685.
 
 config PWM_PIANODRIVER
-	bool
 	default y
 	tristate "PWM driver for MIDI chimes"
 	depends on I2C

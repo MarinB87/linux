@@ -331,8 +331,7 @@ config PWM_PCA9685
 	  To compile this driver as a module, choose M here: the module
 	  will be called pwm-pca9685.
 
-config PWM_PIANODRIVER
-	default y
+config PWM_CHIMES
 	tristate "PWM driver for MIDI chimes"
 	depends on I2C
 	select REGMAP_I2C

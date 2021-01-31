@@ -272,7 +272,7 @@ static int piano_pwm_remove(struct i2c_client *client)
 
 #ifdef CONFIG_OF
 static const struct of_device_id piano_pwm_of_match[] = {
-	{ .compatible = "mb,piano-pwm", },
+	{ .compatible = "mb,pwm-chimes", },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, piano_pwm_of_match);
@@ -282,13 +282,13 @@ static struct i2c_driver piano_pwm_driver = {
 	.probe = piano_pwm_probe,
 	.remove = piano_pwm_remove,
 	.driver = {
-		.name = "piano-pwm",
+		.name = "pwm-chimes",
 		.of_match_table = of_match_ptr(piano_pwm_of_match),
 	},
 };
 module_i2c_driver(piano_pwm_driver);
 
-MODULE_DESCRIPTION("Piano PWM driver");
-MODULE_ALIAS("platform:piano-pwm");
+MODULE_DESCRIPTION("PWM chimes driver");
+MODULE_ALIAS("platform:pwm-chimes");
 MODULE_AUTHOR("Marin Basic");
 MODULE_LICENSE("GPL");

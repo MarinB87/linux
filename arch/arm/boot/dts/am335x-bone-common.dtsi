@@ -336,8 +336,8 @@
 		};
 	};
 
-	pianopwm@38 {
-		compatible = "mb,piano-pwm";
+	pwmchimes@38 {
+		compatible = "mb,pwm-chimes";
 		#address-cells = <1>;
 		#size-cells = <0>;
 		#pwm-cells = <2>;

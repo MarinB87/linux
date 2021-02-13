@@ -46,8 +46,6 @@ static inline struct piano_fpga_pwm *to_piano_fpga_pwm(struct pwm_chip *_chip)
 static struct piano_pwm_map *
 piano_pwm_request_map(struct piano_fpga_pwm *piano_fpga_pwm, int hwpwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_request_map\n");
-
 	struct piano_pwm_map *pwm_map;
 	int offset;
 
@@ -77,8 +75,6 @@ piano_pwm_request_map(struct piano_fpga_pwm *piano_fpga_pwm, int hwpwm)
 
 static int piano_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_request\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = to_piano_fpga_pwm(chip);
 	struct piano_pwm_map *pwm_map;
 
@@ -92,8 +88,6 @@ static int piano_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
 static void piano_pwm_free_map(struct piano_fpga_pwm *piano_fpga_pwm,
 				struct piano_pwm_map *pwm_map)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_free_map\n");
-
 	int offset;
 
 	offset = pwm_map->output;
@@ -109,8 +103,6 @@ static void piano_pwm_free_map(struct piano_fpga_pwm *piano_fpga_pwm,
 
 static void piano_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_free\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = to_piano_fpga_pwm(chip);
 	struct piano_pwm_map *pwm_map = pwm_get_chip_data(pwm);
 
@@ -120,8 +112,6 @@ static void piano_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
 static int piano_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
 			     int duty_ns, int period_ns)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_config\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = to_piano_fpga_pwm(chip);
 	u8 val, reg_duty;
 
@@ -142,8 +132,6 @@ static int piano_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
 
 static int piano_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_enable\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = to_piano_fpga_pwm(chip);
 	u8 val, reg_duty;
 
@@ -159,8 +147,6 @@ static int piano_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
 
 static void piano_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_disable\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = to_piano_fpga_pwm(chip);
 	u8 val, reg_duty;
 
@@ -186,8 +172,6 @@ static const struct pwm_ops piano_pwm_ops = {
 static int piano_pwm_set_outputs(struct device *dev,
 			       struct piano_fpga_pwm *piano_fpga_pwm)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_parse_dt\n");
-
 	struct piano_pwm_map *pwm_map;
 	enum piano_pwm_output *output;
 	int i, count = 0;
@@ -224,7 +208,6 @@ static const struct regmap_config piano_fpga_pwm_regmap_config = {
 
 static int piano_pwm_probe(struct i2c_client *cl, const struct i2c_device_id *id)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_probe\n");
 	struct piano_fpga_pwm *piano_fpga_pwm;
 	struct device *dev = &cl->dev;
 	int ret;
@@ -240,15 +223,12 @@ static int piano_pwm_probe(struct i2c_client *cl, const struct i2c_device_id *id
 	i2c_set_clientdata(cl, piano_fpga_pwm);
 
 	if (IS_ENABLED(CONFIG_OF)) {
-		printk(KERN_ALERT "PIANO-PWM - calling piano_pwm_parse_dt\n");
 		ret = piano_pwm_set_outputs(dev, piano_fpga_pwm);
 	} else {
-		printk(KERN_ALERT "PIANO-PWM - ENODEV\n");
 		ret = -ENODEV;
 	}
 
 	if (ret) {
-		printk(KERN_ALERT "PIANO-PWM - return ret\n");
 		return ret;
 	}
 
@@ -257,14 +237,11 @@ static int piano_pwm_probe(struct i2c_client *cl, const struct i2c_device_id *id
 	piano_fpga_pwm->chip.base = -1;
 	piano_fpga_pwm->chip.npwm = PIANO_NUM_PWMS;
 
-	printk(KERN_ALERT "PIANO-PWM - calling pwmchip_add\n");
 	return pwmchip_add(&piano_fpga_pwm->chip);
 }
 
 static int piano_pwm_remove(struct i2c_client *client)
 {
-	printk(KERN_ALERT "PIANO-PWM - piano_pwm_remove\n");
-
 	struct piano_fpga_pwm *piano_fpga_pwm = i2c_get_clientdata(client);
 
 	return pwmchip_remove(&piano_fpga_pwm->chip);
